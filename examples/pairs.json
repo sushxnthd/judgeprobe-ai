@@ -1,0 +1,12 @@
+[
+  {
+    "prompt": "Explain 2+2",
+    "a": "Four.",
+    "b": "The answer is four because two plus two equals four."
+  },
+  {
+    "prompt": "Name a gas giant",
+    "a": "Jupiter",
+    "b": "Jupiter"
+  }
+]

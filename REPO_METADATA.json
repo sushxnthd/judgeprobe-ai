@@ -1,0 +1,12 @@
+{
+  "name": "judgeprobe-ai",
+  "description": "Audit position and presentation bias in pairwise AI judges.",
+  "topics": [
+    "llm-evaluation",
+    "llm-as-a-judge",
+    "bias",
+    "benchmarks",
+    "ai-safety"
+  ],
+  "visibility": "public"
+}

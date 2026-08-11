@@ -1,0 +1,7 @@
+{
+  "samples": 300,
+  "position_flip_rate": 0.0,
+  "a_win_rate": 0.5,
+  "b_win_rate": 0.5,
+  "tie_rate": 0.0
+}
