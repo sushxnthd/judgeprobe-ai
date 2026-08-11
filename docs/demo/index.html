@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>judgeprobe — judge audit demo</title><style>
+:root {
+  color-scheme: dark;
+  --bg: #0a0c10;
+  --panel: #10141b;
+  --panel-2: #141a23;
+  --line: #252d3a;
+  --text: #e9edf4;
+  --muted: #94a0b2;
+  --accent: #83e6c2;
+  --accent-2: #78a9ff;
+  --warn: #ffce73;
+  --bad: #ff7f8b;
+  --ok: #83e6c2;
+  --shadow: 0 14px 40px rgba(0,0,0,.28);
+}
+* { box-sizing: border-box; }
+html { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 18% -8%, rgba(120,169,255,.11), transparent 34rem), var(--bg); }
+a { color: inherit; }
+.shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 52px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; padding: 4px 0 24px; }
+.brand { display:flex; align-items:center; gap:11px; font-weight:760; letter-spacing:-.02em; }
+.mark { width:11px; height:11px; border-radius:3px; background:var(--accent); box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 55%, transparent); }
+.repo-link { color:var(--muted); text-decoration:none; border:1px solid var(--line); padding:8px 11px; border-radius:9px; font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.repo-link:hover { color:var(--text); border-color:#3a4659; }
+.hero { display:grid; grid-template-columns: 1.35fr .65fr; gap:18px; margin-bottom:18px; }
+.hero-copy, .status-card, .panel { border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.018), transparent), var(--panel); border-radius:14px; box-shadow:var(--shadow); }
+.hero-copy { padding:28px; }
+.eyebrow { color:var(--accent); font:700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform:uppercase; letter-spacing:.09em; }
+h1 { margin:9px 0 10px; font-size:clamp(31px,5vw,54px); line-height:.98; letter-spacing:-.05em; }
+.lede { max-width:720px; margin:0; color:#b7c0ce; font-size:16px; line-height:1.62; }
+.status-card { padding:22px; display:flex; flex-direction:column; justify-content:space-between; min-height:168px; }
+.status-label { color:var(--muted); font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform:uppercase; letter-spacing:.08em; }
+.status-value { font-size:32px; font-weight:780; letter-spacing:-.04em; margin:12px 0 3px; }
+.status-note { color:var(--muted); font-size:13px; line-height:1.45; }
+.grid { display:grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap:18px; }
+.panel { padding:20px; min-width:0; }
+.panel h2 { margin:0 0 16px; font-size:14px; letter-spacing:-.01em; }
+label { display:block; color:#b7c0ce; font-size:12px; font-weight:650; margin:14px 0 6px; }
+input, textarea, select, button { font:inherit; }
+textarea, input[type=text], input[type=number], select { width:100%; color:var(--text); background:#0c1016; border:1px solid var(--line); border-radius:9px; padding:10px 11px; outline:none; }
+textarea { resize:vertical; min-height:120px; font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; }
+textarea:focus, input:focus, select:focus { border-color:#46617f; box-shadow:0 0 0 3px rgba(120,169,255,.09); }
+button { border:0; border-radius:9px; padding:10px 13px; font-weight:750; cursor:pointer; }
+button.primary { background:var(--accent); color:#07110d; }
+button.secondary { background:#1b2330; color:#cfd6e1; border:1px solid var(--line); }
+button:hover { filter:brightness(1.04); }
+.row { display:flex; gap:10px; align-items:center; }
+.row > * { flex:1; }
+.actions { display:flex; gap:9px; margin-top:14px; flex-wrap:wrap; }
+.metric-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:9px; margin:12px 0 16px; }
+.metric { background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:12px; }
+.metric .k { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.07em; }
+.metric .v { margin-top:6px; font:720 20px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.table { width:100%; border-collapse:collapse; font-size:12px; }
+.table th { color:var(--muted); font-weight:650; text-align:left; padding:8px 7px; border-bottom:1px solid var(--line); }
+.table td { padding:9px 7px; border-bottom:1px solid #1d2430; vertical-align:middle; }
+.table tr:last-child td { border-bottom:0; }
+.mono { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
+.muted { color:var(--muted); }
+.good { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+.bar { height:6px; background:#0a0e14; border-radius:100px; overflow:hidden; border:1px solid #202834; }
+.bar > i { display:block; height:100%; background:linear-gradient(90deg,var(--accent-2),var(--accent)); border-radius:inherit; }
+.pill { display:inline-flex; align-items:center; gap:5px; border:1px solid var(--line); border-radius:999px; padding:5px 8px; color:#bac4d2; background:#0c1016; font-size:11px; }
+.split { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.range-row { display:grid; grid-template-columns:1fr 62px; gap:10px; align-items:center; }
+input[type=range] { width:100%; accent-color:var(--accent); }
+.cards { display:grid; gap:9px; }
+.item { background:#0d1117; border:1px solid var(--line); border-radius:10px; padding:12px; }
+.item-title { font-weight:700; font-size:13px; }
+.item-sub { color:var(--muted); font-size:11px; margin-top:5px; line-height:1.5; }
+footer { padding-top:20px; color:#657185; font-size:11px; text-align:center; }
+@media(max-width:820px) { .hero,.grid { grid-template-columns:1fr; } .metric-grid{grid-template-columns:1fr 1fr;} .shell{width:min(100% - 20px,1180px)} }
+@media(max-width:520px) { .metric-grid{grid-template-columns:1fr;} .topbar{align-items:flex-start} .row{flex-direction:column;align-items:stretch} }
+</style></head><body><main class="shell">
+<div class="topbar"><div class="brand"><span class="mark"></span>judgeprobe</div><a class="repo-link" href="https://github.com/sushxnthd/judgeprobe-ai">source ↗</a></div>
+<section class="hero"><div class="hero-copy"><div class="eyebrow">pairwise judge auditor</div><h1>Swap the answers. Does the judge stay consistent?</h1><p class="lede">Run a pairwise judge in both A/B orders, canonicalize the swapped result, and detect presentation-induced preference flips. A small batch audit also reports a Wilson confidence interval.</p></div><div class="status-card"><div><div class="status-label">position flip</div><div class="status-value" id="flip">—</div></div><div class="status-note" id="statusNote">Audit the sample pair.</div></div></section>
+<section class="grid"><div class="panel"><h2>Single pair</h2><label>Prompt</label><input id="prompt" type="text" value="Which response is more useful?"><label>Response A</label><textarea id="a">Short answer.</textarea><label>Response B</label><textarea id="b">A longer answer that includes context, a concrete example, and a clear next step.</textarea><label>Judge behavior</label><select id="judge"><option value="length">Length-preferring</option><option value="position">Always prefers A</option><option value="concise">Prefers shorter response</option></select><div class="actions"><button class="primary" id="audit">Audit pair</button></div></div>
+<div class="panel"><h2>Audit output</h2><div class="metric-grid"><div class="metric"><div class="k">original</div><div class="v" id="original">—</div></div><div class="metric"><div class="k">swapped</div><div class="v" id="swapped">—</div></div><div class="metric"><div class="k">canonical</div><div class="v" id="canonical">—</div></div></div><div class="item"><div class="split"><span class="item-title">Batch position-bias estimate</span><span class="mono" id="batchRate">—</span></div><div class="item-sub" id="ci">—</div><div class="bar" style="margin-top:10px"><i id="batchBar" style="width:0"></i></div></div><div class="item" style="margin-top:9px"><div class="item-title">Interpretation</div><div class="item-sub" id="interpretation">Run the audit to compare decisions.</div></div></div></section><footer>Deterministic local judges are used for demonstration; no external LLM is called</footer></main><script>
+const $=id=>document.getElementById(id);function judge(mode,a,b){if(mode==='position')return'A';if(a.length===b.length)return'A';if(mode==='concise')return a.length<b.length?'A':'B';return a.length>b.length?'A':'B'}function canon(swapped){return swapped==='A'?'B':swapped==='B'?'A':'TIE'}function wilson(k,n,z=1.96){if(n<=0)return[0,0];const p=k/n,d=1+z*z/n,c=(p+z*z/(2*n))/d,m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return[Math.max(0,c-m),Math.min(1,c+m)]}
+function auditPair(a,b,mode){const first=judge(mode,a,b),sw=judge(mode,b,a),can=canon(sw);return{first,sw,can,flip:first!==can}}
+function run(){const a=$('a').value,b=$('b').value,mode=$('judge').value,r=auditPair(a,b,mode);$('original').textContent=r.first;$('swapped').textContent=r.sw;$('canonical').textContent=r.can;$('flip').textContent=r.flip?'YES':'NO';$('flip').className='status-value '+(r.flip?'bad':'good');$('statusNote').textContent=r.flip?'Preference changed after canonicalizing the A/B swap.':'Decision is swap-consistent for this pair.';const bank=[[a,b],[b,a],['same','same'],['tiny','a substantially longer answer'],['context and detail','brief'],['alpha beta','alpha beta'],['one','two words'],['carefully reasoned answer','short']];const rs=bank.map(([x,y])=>auditPair(x,y,mode));const flips=rs.filter(x=>x.flip).length,rate=flips/rs.length,[lo,hi]=wilson(flips,rs.length);$('batchRate').textContent=(100*rate).toFixed(1)+'%';$('ci').textContent=`95% Wilson interval: ${(100*lo).toFixed(1)}–${(100*hi).toFixed(1)}% · n=${rs.length}`;$('batchBar').style.width=(100*rate)+'%';$('interpretation').textContent=rate>.4?'This synthetic judge is highly sensitive to answer position in the sample bank.':rate>0?'Some position sensitivity is visible; larger real evaluation sets are needed.':'No flips in this small deterministic sample; that is not proof of an unbiased judge.'}
+$('audit').onclick=run;$('judge').onchange=run;run();
+</script></body></html>

@@ -1,6 +1,7 @@
 # judgeprobe-ai
 
 [![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF)](.github/workflows/ci.yml) [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)](pyproject.toml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[**Live demo →**](https://sushxnthd.github.io/judgeprobe-ai/) · [Architecture](docs/architecture.md) · [Benchmarks](benchmarks/results.json)
 
 
 A small audit harness for pairwise AI judges. It counterbalances every comparison (`A/B` and `B/A`) and reports how often the judge changes its canonical preference when presentation order changes.
